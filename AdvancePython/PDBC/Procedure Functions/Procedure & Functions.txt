@@ -1,0 +1,78 @@
+==========================================================
+# Stored Procedure (in)
+==========================================================
+USE advancepython;
+
+DELIMITER &&
+
+CREATE PROCEDURE empIn(IN c INT)
+BEGIN
+    SELECT * FROM emp WHERE id = c;
+END &&
+
+DELIMITER ;
+
+ --- for get-----
+SET @input = 11;
+CALL empIn(@input);
+
+
+
+==========================================================
+# Stored Procedure (out)
+=========================================================
+
+DELIMITER &&
+
+CREATE PROCEDURE empOut(OUT c INT)
+BEGIN
+    SELECT salary INTO c FROM emp WHERE id = 3;
+END &&
+
+DELIMITER ;
+
+--- for get----
+
+CALL empOut(@output);
+SELECT @output;
+
+
+==========================================================
+# Stored Procedure (inout)
+==========================================================
+DELIMITER &&
+
+CREATE PROCEDURE emprInOut(INOUT c INT)
+BEGIN
+    SELECT deptid INTO c
+    FROM empr
+    WHERE id = c;
+END &&
+
+DELIMITER ;
+
+
+SET @inout = 1;
+
+CALL emprInOut(@inout);
+SELECT @inout;
+
+
+
+==========================================================
+# Stored Function
+==========================================================
+
+delimiter &&
+create function square(num int)
+     returns int
+    deterministic
+     begin
+    declare result int;
+     set result = num * num;
+     return result;
+    end &&
+ delimiter ;
+select square(10);
+
+==========================================================
