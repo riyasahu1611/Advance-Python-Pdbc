@@ -2,9 +2,9 @@ import pymysql
 
 
 def testUpdate1():
-    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
-    sql = "update student set name = 'Ayush' where id =2"
+    sql = "update marksheet set rollNo = 104, name = 'ritu', phy = 99, chm = 99, maths = 99 where id = 2"
     cursor.execute(sql)
     connection.commit()
     connection.close()
@@ -12,49 +12,53 @@ def testUpdate1():
 
 
 def testUpdate2():
-    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
-    sql = "update student set name = %s where id = %s"
-    data = ('Rohit', 1)
+    sql = "update marksheet set rollNo = %s, name = %s, phy = %s, chM = %s, maths = %s where id = %s"
+    data = (105, 'sarita', 72, 72, 26, 1)
     cursor.execute(sql, data)
     connection.commit()
     connection.close()
-    print('data updated2 successfully')
+    print('data updated successfully')
 
 
-def testUpdate3(id, name):
-    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+def testUpdate3(rollNo, name, phy, chm, maths, id):
+    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
-    sql = "update student set name = %s where id = %s"
-    data = (id, name)
+    sql = "update marksheet set rollNo = %s, name = %s, phy = %s, chm = %s, maths = %s where id = %s"
+    data = (rollNo, name, phy, chm, maths, id)
     cursor.execute(sql, data)
     connection.commit()
     connection.close()
-    print('data updated3 successfully')
+    print('data updated successfully')
 
 
-def testInsert4(data):
+def testUpdate4(data):
     id = data['id']
-    name = data['Name']
-    address = data['address']
-    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+    rollNo = data['rollNo']
+    name = data['name']
+    phy = data['phy']
+    chm = data['chm']
+    maths = data['maths']
+    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
-    sql = "update student set id= %s, name= %s, address= %s where id = %s"
-    data = (id, name, address, id)
+    sql = "update marksheet set rollNo = %s, name = %s, phy = %s, chm = %s, maths = %s where id = %s"
+    data = (rollNo, name, phy, chm, maths, id)
     cursor.execute(sql, data)
     connection.commit()
     connection.close()
-    print('data inserted4 successfully')
+    print('data updated successfully')
 
-
-testUpdate1()
+# testUpdate1()
 # testUpdate2()
-# testUpdate3('Aman', 3)
+# testUpdate3(103, 'pqr', 89, 77, 67, 3)
 
-#
-# params = {}
-# params['id'] = 2
-# params['Name'] = 'Amolika'
-# params['address'] = 'Delhi'
+params = {}
+params['id'] = 8
+params['rollNo'] = 104
+params['name'] = 'Raju'
+params['phy'] = 65
+params['chm'] = 79
+params['maths'] = 80
 
-# testInsert4(params)
+testUpdate4(params)

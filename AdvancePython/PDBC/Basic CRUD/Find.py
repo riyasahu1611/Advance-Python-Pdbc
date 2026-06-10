@@ -1,7 +1,7 @@
 import pymysql
 
 pk = 0
-connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', db='advpython')
+connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
 cursor = connection.cursor()
 sql = "select * from students"
 cursor.execute(sql)

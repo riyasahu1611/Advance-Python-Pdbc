@@ -1,34 +1,37 @@
 import pymysql
 
-def testDelete():
-    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+
+def testDelete1():
+    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
-    sql = "delete from student where id = 9"
+    sql = "delete from marksheet where id = 6"
     cursor.execute(sql)
     connection.commit()
     connection.close()
-    print("data Delete Successfully")
+    print('data deleted successfully')
 
 
-def testdelete2():
-    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+def testDelete2():
+    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
-    sql = "delete from student where id= %s"
-    data=(2,)
-    cursor.execute(sql,data)
+    sql = "delete from marksheet where id = %s"
+    data = (2)
+    cursor.execute(sql, data)
     connection.commit()
     connection.close()
-    print("data Delete2 Successfully")
+    print('data deleted successfully')
 
-def testdelete3(id):
-    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+
+def testDelete3(id):
+    connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
-    sql = "delete from student where id= %s"
-    data=(id,)
-    cursor.execute(sql,data)
+    sql = "delete from marksheet where id = %s"
+    data = (id)
+    cursor.execute(sql, data)
     connection.commit()
     connection.close()
-    print("data Delete3 Successfully")
-# testDelete()
-#testdelete2()
-testdelete3(8)
+    print('data deleted successfully')
+
+# testDelete1()
+# testDelete2()
+testDelete3(3)
