@@ -1,0 +1,134 @@
+import pymysql
+
+class UserModel:
+
+    def next_pk(self):
+        pk = 0
+        connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+        cursor = connection.cursor()
+        sql = "select max(id) from user"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        # print(result)
+        for data in result:
+            if data[0] is not None:
+                pk = data[0]
+        connection.commit()
+        connection.close()
+        print(pk)
+        return pk + 1
+
+    def add(self, data):
+        id = UserModel.next_pk(self)
+        first_name = data['first_name']
+        last_name = data['last_name']
+        login_id = data['login_id']
+        password = data['password']
+        dob = data['dob']
+        address = data['address']
+
+        user_exist = self.find_by_login(login_id)
+
+        if len(user_exist) > 0:
+            raise Exception('Login ID already exist')
+
+        connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+        cursor = connection.cursor()
+        sql = "insert into user values(%s, %s, %s, %s, %s, %s, %s)"
+        data = (id, first_name, last_name, login_id, password, dob, address)
+        cursor.execute(sql, data)
+        connection.commit()
+        connection.close()
+        print('data inserted successfully')
+
+    def update(self, data):
+        id = data['id']
+        first_name = data['first_name']
+        last_name = data['last_name']
+        login_id = data['login_id']
+        password = data['password']
+        dob = data['dob']
+        address = data['address']
+
+        user_exist = self.find_by_login(login_id)
+
+        if len(user_exist) > 0 and user_exist[0].get('id') != id:
+            raise Exception('Login ID already exist')
+
+        connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+        cursor = connection.cursor()
+        sql = "update user set first_name = %s, last_name = %s,login_id = %s, password = %s, dob = %s, address = %s where id = %s"
+        data = (first_name, last_name, login_id, password, dob, address, id)
+        cursor.execute(sql, data)
+        connection.commit()
+        connection.close()
+        print('data updated successfully')
+
+    def delete(self, id):
+        connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+        cursor = connection.cursor()
+        sql = "delete from user where id = %s"
+        data = (id)
+        cursor.execute(sql, data)
+        connection.commit()
+        connection.close()
+        print('data deleted successfully')
+
+    def get(self, id):
+        connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+        cursor = connection.cursor()
+        sql = "select * from user where id = %s"
+        data = (id)
+        cursor.execute(sql, data)
+        result = cursor.fetchall()
+        columnName = ("id", "first_name", "last_name", "login_id", "password", "dob", "address")
+        res = []
+        for x in result:
+            # print({columnName[i]: x[i] for i, _ in enumerate(x)})
+            res.append({columnName[i]: x[i] for i, _ in enumerate(x)})
+        connection.close()
+        return res
+
+
+    def find_by_login(self, login_id):
+        connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='advpython')
+        cursor = connection.cursor()
+        sql = "select * from user where login_id = %s"
+        data = (login_id)
+        cursor.execute(sql, data)
+        result = cursor.fetchall()
+        columnName = ("id", "first_name", "last_name", "login_id", "password", "dob", "address")
+        res = []
+        for x in result:
+            # print({columnName[i]: x[i] for i, _ in enumerate(x)})
+            res.append({columnName[i]: x[i] for i, _ in enumerate(x)})
+        connection.close()
+        return res
+
+
+    def search(self, data):
+        firstName = data.get('firstName', '')
+        dob = data.get('dob', 0)
+        pageNo = data.get('pageNo', 0)
+        pageSize = data.get('pageSize', 0)
+        connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', db='advpython')
+        cursor = connection.cursor()
+        sql = "select * from user where 1=1"
+        if firstName != '':
+            sql += " and first_name='" + firstName + "'"
+        if dob != 0:
+            sql += " and dob= " + str(dob)
+        if (pageSize > 0):
+            pageNo = (pageNo - 1) * pageSize
+            sql += " limit " + str(pageNo) + ", " + str(pageSize)
+        print('sql => ', sql)
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        columnName = ("id", "first_name", "last_name", "login_id", "password", "dob", "address")
+        res = []
+        for x in result:
+            print({columnName[i]: x[i] for i, _ in enumerate(x)})
+            res.append({columnName[i]: x[i] for i, _ in enumerate(x)})
+        connection.close()
+        return res
+

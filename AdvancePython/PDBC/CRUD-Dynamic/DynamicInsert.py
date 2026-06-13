@@ -22,11 +22,11 @@ def testInsert2():
     print('data inserted successfully')
 
 
-def testInsert3(id, rollNo, name, physics, chemistry, maths):
+def testInsert3(id, rollNo, name, phy, chm, maths):
     connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
     sql = "insert into marksheet values(%s, %s, %s, %s, %s, %s)"
-    data = (id, rollNo, name, physics, chemistry, maths)
+    data = (id, rollNo, name, phy, chm, maths)
     cursor.execute(sql, data)
     connection.commit()
     connection.close()
@@ -37,13 +37,13 @@ def testInsert4(data={}):
     id = data['id']
     rollNo = data['rollNo']
     name = data['name']
-    physics = data['physics']
-    chemistry = data['chemistry']
+    phy = data['phy']
+    chm = data['chm']
     maths = data['maths']
     connection = pymysql.connect(host='localhost', port=3306, user='root', password='root', database='school')
     cursor = connection.cursor()
     sql = "insert into marksheet values(%s, %s, %s, %s, %s, %s)"
-    data = (id, rollNo, name, physics, chemistry, maths)
+    data = (id, rollNo, name, phy, chm, maths)
     cursor.execute(sql, data)
     connection.commit()
     connection.close()
